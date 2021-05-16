@@ -288,7 +288,7 @@ public class Propagator {
         oscAdding = true;
         stepInternal(oscPoints);
       } else {
-        isOscillating = true;
+//        isOscillating = true;
         oscAdding = false;
         return true;
       }

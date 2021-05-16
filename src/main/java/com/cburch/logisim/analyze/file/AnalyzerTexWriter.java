@@ -76,19 +76,19 @@ public class AnalyzerTexWriter {
     for (int i = 0; i < inputVars.size(); i++) {
       final var inp = inputVars.get(i);
       if (inp.width == 1) {
-        out.append("$").append(inp.name).append("$&");
+        out.append("$").append(inp.escapedName()).append("$&");
       } else {
         final var format = i == inputVars.size() - 1 ? "c|" : "c";
         out.append("\\multicolumn{").append(inp.width).append("}{").append(format).append("}{$")
-            .append(inp.name).append("[").append(inp.width - 1).append("..0]$}&");
+            .append(inp.escapedName()).append("[").append(inp.width - 1).append("..0]$}&");
       }
     }
     for (int i = 0; i < outputVars.size(); i++) {
       final var outp = outputVars.get(i);
       if (outp.width == 1) {
-        out.append("$").append(outp.name).append("$");
+        out.append("$").append(outp.escapedName()).append("$");
       } else {
-        out.append("\\multicolumn{").append(outp.width).append("}{c}{$").append(outp.name)
+        out.append("\\multicolumn{").append(outp.width).append("}{c}{$").append(outp.escapedName())
             .append("[").append(outp.width - 1).append("..0]$}");
       }
       out.append(i < outputVars.size() - 1 ? "&" : "\\\\");
@@ -178,7 +178,7 @@ public class AnalyzerTexWriter {
     for (var i = 0; i < model.getInputs().bits.size(); i++) {
       try {
         final var inp = Bit.parse(model.getInputs().bits.get(reorder[i]));
-        content.append("{$").append(inp.name);
+        content.append("{$").append(inp.escapedName());
         if (inp.bitIndex >= 0) content.append("_").append(inp.bitIndex);
         content.append("$}");
       } catch (ParserException e) {
@@ -210,19 +210,19 @@ public class AnalyzerTexWriter {
       if (variable.width == 1) {
         if (count++ < nrLeftVars) {
           if (leftVars.length() != 0) leftVars.append(", ");
-          leftVars.append("$").append(variable.name).append("$");
+          leftVars.append("$").append(variable.escapedName()).append("$");
         } else {
           if (topVars.length() != 0) topVars.append(", ");
-          topVars.append("$").append(variable.name).append("$");
+          topVars.append("$").append(variable.escapedName()).append("$");
         }
       } else {
         for (int idx = variable.width; idx >= 0; idx--) {
           if (count++ < nrLeftVars) {
             if (leftVars.length() != 0) leftVars.append(", ");
-            leftVars.append("$").append(variable.name).append("_{").append(idx).append("}$");
+            leftVars.append("$").append(variable.escapedName()).append("_{").append(idx).append("}$");
           } else {
             if (topVars.length() != 0) topVars.append(", ");
-            topVars.append("$").append(variable.name).append("_{").append(idx).append("}$");
+            topVars.append("$").append(variable.escapedName()).append("_{").append(idx).append("}$");
           }
         }
       }
@@ -435,11 +435,11 @@ public class AnalyzerTexWriter {
           for (int i = 0; i < model.getOutputs().vars.size(); i++) {
             final var outp = model.getOutputs().vars.get(i);
             if (outp.width == 1) {
-              String func = "$" + outp.name + "$";
+              String func = "$" + outp.escapedName() + "$";
               out.println(getKarnaughEmpty(func, linedStyle, model));
             } else {
               for (int idx = outp.width - 1; idx >= 0; idx--) {
-                String func = "$" + outp.name + "_{" + idx + "}$";
+                String func = "$" + outp.escapedName() + "_{" + idx + "}$";
                 out.println(getKarnaughEmpty(func, linedStyle, model));
               }
             }
@@ -450,11 +450,11 @@ public class AnalyzerTexWriter {
           for (var i = 0; i < model.getOutputs().vars.size(); i++) {
             Var outp = model.getOutputs().vars.get(i);
             if (outp.width == 1) {
-              final var func = "$" + outp.name + "$";
+              final var func = "$" + outp.escapedName() + "$";
               out.println(getKarnaugh(func, linedStyle, outcol++, model));
             } else {
               for (var idx = outp.width - 1; idx >= 0; idx--) {
-                final var func = "$" + outp.name + "_{" + idx + "}$";
+                final var func = "$" + outp.escapedName() + "_{" + idx + "}$";
                 out.println(getKarnaugh(func, linedStyle, outcol++, model));
               }
             }
@@ -465,11 +465,11 @@ public class AnalyzerTexWriter {
           for (var i = 0; i < model.getOutputs().vars.size(); i++) {
             final var outp = model.getOutputs().vars.get(i);
             if (outp.width == 1) {
-              final var func = "$" + outp.name + "$";
+              final var func = "$" + outp.escapedName() + "$";
               out.println(getKarnaughGroups(outp.name, func, linedStyle, outcol++, model));
             } else {
               for (var idx = outp.width - 1; idx >= 0; idx--) {
-                final var func = "$" + outp.name + "_{" + idx + "}$";
+                final var func = "$" + outp.escapedName() + "_{" + idx + "}$";
                 out.println(getKarnaughGroups(outp.name + "[" + idx + "]", func, linedStyle, outcol++, model));
               }
             }

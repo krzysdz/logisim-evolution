@@ -617,7 +617,7 @@ public abstract class Expression {
               subscript.stopIndex = text.length();
               subscripts.add(subscript);
             } else if (notation.equals(Notation.LATEX)) {
-              add(baseName);
+              add(baseName.replace("_", "\\_"));
               if (index != null) add("_{" + index + "}");
             } else {
               add(name);

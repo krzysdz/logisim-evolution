@@ -312,10 +312,10 @@ public class TikZInfo implements Cloneable {
     var fontName = usedFonts.get(i);
     if (fontName.contains("SansSerif")) {
       replaced = true;
-      fontName = "cmr";
+      fontName = "notosans";
     } else if (fontName.contains("Monospaced")) {
       replaced = true;
-      fontName = "cmtt";
+      fontName = "notosansmono";
     } else if (fontName.contains("Courier")) {
       replaced = true;
       fontName = "pcr";
@@ -1216,7 +1216,7 @@ public class TikZInfo implements Cloneable {
     public String getTikZCommand() {
       final var content = new StringBuilder();
       content.append("\\logisimfont").append(getCharRepresentation(fontIndex)).append("{");
-      content.append("\\fontsize{").append(fontSize).append("pt}{").append(fontSize).append("pt}");
+      content.append("\\fontsize{").append(fontSize - 1).append("pt}{").append(fontSize - 1).append("pt}");
       if (isFontBold) content.append("\\fontseries{bx}");
       if (isFontItalic) content.append("\\fontshape{it}");
       content.append("\\selectfont\\node[inner sep=0, outer sep=0, ").append(color)

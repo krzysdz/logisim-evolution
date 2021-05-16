@@ -40,6 +40,14 @@ public class Var implements Iterable<String> {
     return (width > 1) ? name + "[" + (width - 1) + "..0]" : name;
   }
 
+  private static String escapeName(String name) {
+	  return name.replace("_", "\\_");
+  }
+
+  public String escapedName() {
+	  return escapeName(name);
+  }
+
   public static Var parse(String s) throws ParserException {
     s = s.trim();
     final var i = s.indexOf('[');
@@ -76,6 +84,10 @@ public class Var implements Iterable<String> {
     @Override
     public String toString() {
       return (bitIndex == -1) ? name : name + "[" + bitIndex + "]";
+    }
+
+    public String escapedName() {
+    	return escapeName(name);
     }
 
     public static Bit parse(String s) throws ParserException {
